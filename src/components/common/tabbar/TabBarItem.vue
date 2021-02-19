@@ -60,11 +60,11 @@
 
   }
   .tab-bar-item img{
-    height: 20px;
+    /*height: 20px;*/
     width: 20px;
 
     /*调整图片离顶部的距离*/
-    padding-top: 3px;
+    padding-top: 6px;
 
     /*调小图片间隙*/
     vertical-align: middle;
