@@ -31,7 +31,7 @@
 
     text-align: center;
 
-    overflow: hidden;
-    margin-bottom: 49px;
+    /*overflow: hidden;*/
+    /*margin-bottom: 49px;*/
   }
 </style>

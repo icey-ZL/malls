@@ -3,15 +3,15 @@
     <nav-bar>
       <div slot="center">购物街</div>
     </nav-bar>
-    <div class="wrapper">
-      <div class="content">
+    <scroll class="scroll-content" ref="scroll" :probe-type="3" @scroll="contentScroll">
         <home-swiper :banner="banner" class="home-swiper"></home-swiper>
         <home-recommend :recommend="recommend"></home-recommend>
         <tab-control class="tab-control"
                      :titles="['流行','精选','新款']"
                      @tabClick="tabClick"></tab-control>
-        <goods-list :goods="showGoods" ></goods-list></div>
-    </div>
+        <goods-list :goods="showGoods" ></goods-list>
+    </scroll>
+    <back-top @click.native="backClick" v-show="isShow"></back-top>
 
   </div>
 
@@ -20,8 +20,10 @@
 
 <script>
   import NavBar from 'components/common/navbar/NavBar'
+  import scroll from 'components/common/scroll/scroll'
   import TabControl from 'components/content/TabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
+  import backTop from 'components/content/backTop/backTop'
 
   import {
     getHomeMultidata,
@@ -41,7 +43,9 @@
       HomeSwiper,
       HomeRecommend,
       TabControl,
-      GoodsList
+      GoodsList,
+      scroll,
+      backTop,
     },
     data(){
       return{
@@ -52,7 +56,8 @@
           'sell':{page:0,list:[]},
           'new':{page:0,list:[]},
         },
-        currentType:'pop'
+        currentType:'pop',
+        isShow:false
       }
     },
     created() {
@@ -87,6 +92,13 @@
             break
         }
       },
+      backClick(){
+         this.$refs.scroll.scrollTo(0,0,500)
+        // console.log(this.$refs.scroll.scroll);
+      },
+      contentScroll(position){
+          this.isShow =  (-position.y) > 1000
+      },
 
 
       //网络请求相关方法
@@ -119,11 +131,25 @@
 
   .home{
     padding-top: 44px;
+    height: 100vh;
+    position: relative;
   }
   .tab-control{
     /*自动转换static和fixed*/
     position: sticky;
     top:44px;
+  }
+  .scroll-content{
+    /*position: absolute;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*top:44px;*/
+    /*bottom: 49px;*/
+
+    overflow: hidden;
+    height: calc(100vh - 93px);
+    /*padding-bottom: 49px;*/
+
   }
 
 </style>
