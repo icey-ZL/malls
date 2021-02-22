@@ -17,6 +17,11 @@
 
 <style scoped>
   .nav-bar{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+
     display: flex;
     /*line-height可以直接使文字居中*/
     line-height: 44px;

@@ -37,8 +37,8 @@
 
   }
   .recommend-item img{
-    width: 5rem;
-    height: 5rem;
+    width: 20vw;
+    /*height: 5rem;*/
     margin-bottom: 5px;
   }
 
