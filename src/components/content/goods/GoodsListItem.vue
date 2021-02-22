@@ -26,8 +26,12 @@
 
 <style scoped>
   .goods-item{
-    width: 49%;
+    /*width: 49%;*/
     padding-left: 2%;
+
+    /*否则内容会被截断*/
+    height: 100%;
+    overflow: auto;
   }
   .goods-item img{
     width: 100%;
