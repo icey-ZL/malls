@@ -24,15 +24,17 @@
 
 <style scoped>
   .goods{
-    /*display: flex;*/
-    /*flex-direction: row;*/
-    /*flex-wrap: wrap;*/
+    display: flex;
+    /*flex-flow: column wrap;*/
+
+    flex-direction: row;
+    flex-wrap: wrap;
     /*justify-content: center;*/
 
     /*瀑布流布局*/
-    column-count: 2;
-    column-gap: 10px;
-    margin: 0 10px;
+    /*column-count: 2;*/
+    /*column-gap: 10px;*/
+    /*margin: 0 10px;*/
 
 
 

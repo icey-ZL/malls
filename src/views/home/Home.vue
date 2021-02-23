@@ -3,15 +3,35 @@
     <nav-bar>
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="scroll-content" ref="scroll" :probe-type="3" @scroll="contentScroll">
-        <home-swiper :banner="banner" class="home-swiper"></home-swiper>
+    <tab-control ref="tabControl1"
+                 class="tab-none"
+                 :titles="['流行','精选','新款']"
+                 @tabClick="tabClick"
+                 v-show="isTabfixed"></tab-control>
+    <div class="down-load"><!--@click="loadMore" -->
+      下拉刷新...
+    </div>
+    <scroll class="scroll-content"
+            ref="scroll"
+            :probe-type="3"
+            @scroll="contentScroll"
+            :pull-up="true"
+            @pullingUp="showLoad" @pullingDown="showRefresh">
+
+        <home-swiper :banner="banner" class="home-swiper" @swiperImgLoad.once="swiperImgLoad"></home-swiper>
         <home-recommend :recommend="recommend"></home-recommend>
-        <tab-control class="tab-control"
+        <tab-control ref="tabControl2"
                      :titles="['流行','精选','新款']"
-                     @tabClick="tabClick"></tab-control>
+                     @tabClick="tabClick"
+                     v-show="!isTabfixed"></tab-control>
         <goods-list :goods="showGoods" ></goods-list>
+        <div class="show-load"
+             v-show="isShowLoad"><!--@click="loadMore" -->
+          没有更多了...
+        </div>
     </scroll>
     <back-top @click.native="backClick" v-show="isShow"></back-top>
+
 
   </div>
 
@@ -24,6 +44,7 @@
   import TabControl from 'components/content/TabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
   import backTop from 'components/content/backTop/backTop'
+  import {debounce} from '../../common/utils'
 
   import {
     getHomeMultidata,
@@ -57,7 +78,11 @@
           'new':{page:0,list:[]},
         },
         currentType:'pop',
-        isShow:false
+        isShow:false,
+        isShowLoad:true,
+        tabOffsetTop:0,
+        isTabfixed:false,
+        isLoads:false
       }
     },
     created() {
@@ -68,14 +93,38 @@
       this.getHomeGoods('pop')
       this.getHomeGoods('sell')
       this.getHomeGoods('new')
+
+    },
+    watch:{
+      f1(val){
+        if(val===true){
+          // console.log(this.$store.state.imgload);
+          this.$store.commit('loaded')
+        }
+      },
     },
     mounted(){
-
+      //图片加载完成的事件监听
+      let refresh = debounce(this.$refs.scroll.refresh(),50)
+      this.$bus.$on('onload',()=>{
+        refresh
+        //不能直接用，直接用无效
+        // this.debounce(console.log(123),5000)
+      })
+      //挂载时图片不一定加载完了，所以获取的高度不一定准确
+    },
+    updated(){
+      this.$refs.scroll.refresh()
     },
     computed:{
       showGoods(){
         return this.goods[this.currentType].list
+      },
+      f1(){
+       // console.log(this.$store.state.imgload);
+        return this.$store.state.imgload
       }
+
     },
     methods:{
       //事件监听相关方法
@@ -91,14 +140,42 @@
             this.currentType = 'new'
             break
         }
+        this.$refs.tabControl1.currentIndex = index
+        this.$refs.tabControl2.currentIndex = index
       },
       backClick(){
          this.$refs.scroll.scrollTo(0,0,500)
         // console.log(this.$refs.scroll.scroll);
       },
       contentScroll(position){
+        //控制backtop按钮出现和消失
           this.isShow =  (-position.y) > 1000
+
+        //决定tabControl是否吸顶（position：fiexd）
+          this.isTabfixed = (-position.y) > (this.tabOffsetTop)
       },
+      // loadMore(){
+      //  // console.log(this.$refs.scroll);
+      //   this.getHomeGoods(this.currentType)
+      // },
+      showLoad(){
+        // this.isShowLoad=true
+        this.getHomeGoods(this.currentType)
+      },
+      showRefresh(){
+        window.location.reload()
+      },
+      swiperImgLoad(){
+        //获取tabControl的offsetTop
+        // console.log(this.$refs.tabControl2.$el.offsetTop);
+        // console.log(this.$refs.tabControl2.$el.offsetHeight);
+        this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop - this.$refs.tabControl2.$el.offsetHeight
+      },
+
+
+
+
+
 
 
       //网络请求相关方法
@@ -134,11 +211,11 @@
     height: 100vh;
     position: relative;
   }
-  .tab-control{
-    /*自动转换static和fixed*/
-    position: sticky;
-    top:44px;
-  }
+  /*.tab-control{*/
+    /*!*自动转换static和fixed*!*/
+    /*position: sticky;*/
+    /*top:44px;*/
+  /*}*/
   .scroll-content{
     /*position: absolute;*/
     /*left: 0;*/
@@ -151,5 +228,21 @@
     /*padding-bottom: 49px;*/
 
   }
+  .show-load{
+    text-align: center;
+    font-size: 12px;
+
+    /*手机浏览器测试*/
+    /*padding-bottom: 100px;*/
+  }
+  .down-load{
+    text-align: center;
+    font-size: 12px;
+    position: fixed;
+    left: 0;
+    right: 0;
+    padding: 5px;
+  }
+
 
 </style>

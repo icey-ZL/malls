@@ -110,7 +110,7 @@
     export default {
       name: "Category",
       mounted() {
-        console.log(this.$refs.aaa);
+       // console.log(this.$refs.aaa);
         new bscroll('.wrapper',{
 
         })

@@ -1,6 +1,6 @@
 <template>
-  <div class="goods-item">
-    <img :src="goodsItem.show.img" alt="">
+  <div class="goods-item" @click="itemClick">
+    <img :src="goodsItem.show.img" alt="" @load="imgload">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+  import {debounce} from '../../../common/utils'
     export default {
       name: "GoodsListItem",
       props:{
@@ -20,18 +21,35 @@
             return {};
           }
         }
+      },
+      methods:{
+        imgload(){
+          this.$bus.$emit('onload')
+         // console.log(this.$store.state.imgload);
+        },
+        itemClick(){
+          console.log(123);
+        }
+      },
+      mounted() {
+        this.$store.commit('onload')
+        let aaa = debounce(this.$store.commit('onload'),5)
+        aaa
       }
     }
 </script>
 
 <style scoped>
   .goods-item{
-    /*width: 49%;*/
+    width: 49%;
     padding-left: 2%;
+    /*width: calc(100vw/2 - 20px);*/
+
+    /*break-inside: avoid;*/
 
     /*否则内容会被截断*/
-    height: 100%;
-    overflow: auto;
+    /*height: 100%;*/
+    /*overflow: auto;*/
   }
   .goods-item img{
     width: 100%;
