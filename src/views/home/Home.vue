@@ -51,8 +51,8 @@
     getHomeGoods
   } from 'network/home';
 
-  import HomeSwiper from './childrenCompnent/HomeSwiper'
-  import HomeRecommend from './childrenCompnent/HomeRecommend'
+  import HomeSwiper from './childrenComponent/HomeSwiper'
+  import HomeRecommend from './childrenComponent/HomeRecommend'
 
 
 

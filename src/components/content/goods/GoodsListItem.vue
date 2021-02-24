@@ -28,7 +28,7 @@
          // console.log(this.$store.state.imgload);
         },
         itemClick(){
-          console.log(123);
+          this.$router.push('/detail/'+ this.goodsItem.iid)
         }
       },
       mounted() {
