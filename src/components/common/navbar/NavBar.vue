@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-bar home-nav">
+    <div class="nav-bar">
       <div class="left"><slot name="left"></slot></div>
       <div class="center"><slot name="center"></slot></div>
       <div class="right"><slot name="right"></slot></div>
@@ -21,6 +21,7 @@
     left: 0;
     right: 0;
     top: 0;
+    background-color: #fff;
 
     display: flex;
     /*line-height可以直接使文字居中*/

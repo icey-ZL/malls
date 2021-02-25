@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <nav-bar>
+    <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
     <tab-control ref="tabControl1"
@@ -8,9 +8,9 @@
                  :titles="['流行','精选','新款']"
                  @tabClick="tabClick"
                  v-show="isTabfixed"></tab-control>
-    <div class="down-load"><!--@click="loadMore" -->
-      下拉刷新...
-    </div>
+    <!--<div class="down-load">&lt;!&ndash;@click="loadMore" &ndash;&gt;-->
+      <!--下拉刷新...-->
+    <!--</div>-->
     <scroll class="scroll-content"
             ref="scroll"
             :probe-type="3"

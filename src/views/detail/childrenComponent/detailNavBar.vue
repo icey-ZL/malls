@@ -44,12 +44,18 @@
     display: flex;
     font-size: 14px;
   }
+  .detail-nav-bar{
+    z-index: 10;
+    position: relative;
+  }
   .title-item{
     flex: 1;
+    height: 40px;
   }
   .active{
     color: var(--color-high-text);
     border-bottom: 2px solid var(--color-high-text);
+
   }
   .back img{
     margin-top: 10px;
