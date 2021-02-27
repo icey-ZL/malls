@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item" @click="itemClick">
-    <img :src="goodsItem.show.img" alt="" @load="imgload">
+    <img :src="showImg" alt="" @load="imgload">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -11,7 +11,7 @@
 </template>
 
 <script>
-  import {debounce} from '../../../common/utils'
+  import {debounce} from '../../../common/utils1'
     export default {
       name: "GoodsListItem",
       props:{
@@ -22,19 +22,24 @@
           }
         }
       },
+      computed:{
+        showImg(){
+          return this.goodsItem.image || this.goodsItem.show.img
+        }
+      },
       methods:{
         imgload(){
           this.$bus.$emit('onload')
-         // console.log(this.$store.state.imgload);
+          //console.log(1111);
+          // console.log(this.$store.state.imgload);
+         // this.$store.commit('onload')
         },
         itemClick(){
           this.$router.push('/detail/'+ this.goodsItem.iid)
         }
       },
       mounted() {
-        this.$store.commit('onload')
-        let aaa = debounce(this.$store.commit('onload'),5)
-        aaa
+       // this.$store.commit('onload')
       }
     }
 </script>

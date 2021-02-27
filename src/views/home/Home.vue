@@ -16,8 +16,8 @@
             :probe-type="3"
             @scroll="contentScroll"
             :pull-up="true"
-            @pullingUp="showLoad" @pullingDown="showRefresh">
-
+            @pullingUp="showLoad"
+            @pullingDown="showRefresh">
         <home-swiper :banner="banner" class="home-swiper" @swiperImgLoad.once="swiperImgLoad"></home-swiper>
         <home-recommend :recommend="recommend"></home-recommend>
         <tab-control ref="tabControl2"
@@ -30,8 +30,7 @@
           没有更多了...
         </div>
     </scroll>
-    <back-top @click.native="backClick" v-show="isShow"></back-top>
-
+    <back-top @backTop="backTop" v-show="showBackTop"></back-top>
 
   </div>
 
@@ -44,7 +43,9 @@
   import TabControl from 'components/content/TabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
   import backTop from 'components/content/backTop/backTop'
-  import {debounce} from '../../common/utils'
+  import {debounce} from '@/common/utils'
+  import {backTopMixin,itemListenerMinxin} from '@/common/mixin'
+
 
   import {
     getHomeMultidata,
@@ -53,7 +54,6 @@
 
   import HomeSwiper from './childrenComponent/HomeSwiper'
   import HomeRecommend from './childrenComponent/HomeRecommend'
-
 
 
 
@@ -68,6 +68,7 @@
       scroll,
       backTop,
     },
+    mixins:[backTopMixin,itemListenerMinxin],
     data(){
       return{
         banner:[],
@@ -82,7 +83,8 @@
         isShowLoad:true,
         tabOffsetTop:0,
         isTabfixed:false,
-        isLoads:false
+        isLoads:false,
+      //  f1:false,
       }
     },
     created() {
@@ -95,36 +97,17 @@
       this.getHomeGoods('new')
 
     },
-    watch:{
-      f1(val){
-        if(val===true){
-          // console.log(this.$store.state.imgload);
-          this.$store.commit('loaded')
-        }
-      },
-    },
-    mounted(){
-      //图片加载完成的事件监听
-      let refresh = debounce(this.$refs.scroll.refresh(),50)
-      this.$bus.$on('onload',()=>{
-        refresh
-        //不能直接用，直接用无效
-        // this.debounce(console.log(123),5000)
-      })
-      //挂载时图片不一定加载完了，所以获取的高度不一定准确
-    },
-    updated(){
-      this.$refs.scroll.refresh()
-    },
+
     computed:{
       showGoods(){
         return this.goods[this.currentType].list
       },
-      f1(){
-       // console.log(this.$store.state.imgload);
-        return this.$store.state.imgload
-      }
+    },
+    activated(){
 
+    },
+    deactivated(){
+      this.$bus.$off('onload',this.imgListener)
     },
     methods:{
       //事件监听相关方法
@@ -143,13 +126,11 @@
         this.$refs.tabControl1.currentIndex = index
         this.$refs.tabControl2.currentIndex = index
       },
-      backClick(){
-         this.$refs.scroll.scrollTo(0,0,500)
-        // console.log(this.$refs.scroll.scroll);
-      },
+
       contentScroll(position){
         //控制backtop按钮出现和消失
-          this.isShow =  (-position.y) > 1000
+          this.showBackTop=  (-position.y) > 1000
+
 
         //决定tabControl是否吸顶（position：fiexd）
           this.isTabfixed = (-position.y) > (this.tabOffsetTop)
@@ -174,10 +155,6 @@
 
 
 
-
-
-
-
       //网络请求相关方法
       getHomeMultidata() {
         getHomeMultidata().then(res => {
@@ -195,6 +172,13 @@
           this.goods[type].page += 1
         }).catch(err => err)
        }
+    },
+    updated(){
+      this.$refs.scroll.refresh()
+
+    },
+    mounted() {
+      this.$bus.$on('onload',this.imgListener)
     }
   }
 </script>

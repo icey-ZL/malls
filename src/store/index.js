@@ -13,9 +13,11 @@ export default new Vuex.Store({
   mutations: {
     onload(state){
       state.imgload = true
+     // console.log(1111);
     },
     loaded(state){
       state.imgload = false
+     // console.log(3333);
     }
   },
   actions: {

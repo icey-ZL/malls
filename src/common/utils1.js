@@ -1,13 +1,12 @@
 export function debounce(func,delay){
-  let timer = null
-  return function(...args) {
-    if(timer) clearTimeout(timer)
-    timer = setTimeout(()=>{
-      func.apply(this,args)
-    },delay)
-  }
+ let timer=null
+ return function(...args) {
+   if(timer) clearTimeout(timer)
+   timer = setTimeout(()=>{
+     func.apply(this,args)
+   },delay)
+ }
 }
-
 
 export function formatDate(date, fmt) {
   //获取年份
@@ -16,7 +15,7 @@ export function formatDate(date, fmt) {
   // y* 0或多个y
   // y？0或1个y
   if (/(y+)/.test(fmt)) {
-    //substr(start,length) 方法可在字符串中抽取从 start 下标开始的指定数目的字符。
+  //substr(start,length) 方法可在字符串中抽取从 start 下标开始的指定数目的字符。
     fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
   }
   //匹配月日。。
