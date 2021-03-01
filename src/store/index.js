@@ -1,27 +1,20 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import mutations from './mutations'
+import actions from './actions'
+import getters from  './getters'
 
 Vue.use(Vuex)
+const state ={
+  cartList:[],
+}
 
-export default new Vuex.Store({
-  state: {
-    imgload:{
-      type:Boolean,
-      default: false
-    }
-  },
-  mutations: {
-    onload(state){
-      state.imgload = true
-     // console.log(1111);
-    },
-    loaded(state){
-      state.imgload = false
-     // console.log(3333);
-    }
-  },
-  actions: {
-  },
+const store = new Vuex.Store({
+  state,
+  mutations,
+  actions,
+  getters,
   modules: {
   }
 })
+export default store

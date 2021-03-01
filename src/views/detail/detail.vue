@@ -14,6 +14,7 @@
         <goods-list ref="recommends" :goods="recommends"></goods-list>
       </scroll>
       <back-top @backTop="backTop" v-show="showBackTop"></back-top>
+      <detail-bottom-bar @addCart="addToCart"></detail-bottom-bar>
     </div>
 </template>
 
@@ -27,8 +28,9 @@
   import detailGoodsInfo from './childrenComponent/detailGoodsInfo'
   import detailParamInfo from './childrenComponent/detailParamInfo'
   import detailCommentInfo from './childrenComponent/detailCommentInfo'
+  import detailBottomBar from './childrenComponent/detailBottomBar'
   import GoodsList from 'components/content/goods/GoodsList'
-  import backTop from 'components/content/backTop/backTop'
+
 
   import {getDetail,GoodsInfo,GoodsParam,Shop,getRecommend} from "../../network/detail";
   import {backTopMixin,itemListenerMinxin} from '@/common/mixin'
@@ -36,6 +38,20 @@
 
   export default {
     name: "detail",
+    mixins: [backTopMixin,itemListenerMinxin],
+    components:{
+      detailNavBar,
+      detailSwiper,
+      detailBaseInfo,
+      detailShopInfo,
+      detailGoodsInfo,
+      detailParamInfo,
+      detailCommentInfo,
+      detailBottomBar,
+      scroll,
+      GoodsList,
+
+    },
     data(){
       return{
         iid:null,
@@ -52,7 +68,7 @@
 
       }
     },
-    mixins: [backTopMixin,itemListenerMinxin],
+
     methods:{
       //最后一张图片加载完刷新
       infoImgLoad(){
@@ -93,23 +109,26 @@
         // }
       },
       titleClick(index){
-       // console.log(index);
-
         this.$refs.scroll.scrollTo(0,-this.themeTopY[index],100)
+      },
+      addToCart(){
+        //获取购物车里需要展示的数据
+        const product={
+        }
+        product.img = this.topImages[0]
+        product.desc = this.goods.desc
+        product.title = this.goods.title
+        product.price = this.goods.realPrice
+        product.iid = this.iid
+        product.logo = this.shop.logo
+        product.shop = this.shop.name
+        //将商品添加到购物车
+        this.$store.dispatch('addCart',product)
+
+        console.log(this.$store.state.cartList);
       }
     },
-    components:{
-      detailNavBar,
-      detailSwiper,
-      detailBaseInfo,
-      detailShopInfo,
-      detailGoodsInfo,
-      detailParamInfo,
-      detailCommentInfo,
-      scroll,
-      GoodsList,
-      backTop
-    },
+
     created() {
       //保存iid
       this.iid = this.$route.params.iid
@@ -168,7 +187,7 @@
     background-color: #fff;
   }
   .content{
-    height: calc(100vh - 44px);
+    height: calc(100vh - 93px);
     overflow: hidden;
   }
 

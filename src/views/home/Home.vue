@@ -42,7 +42,6 @@
   import scroll from 'components/common/scroll/scroll'
   import TabControl from 'components/content/TabControl/TabControl'
   import GoodsList from 'components/content/goods/GoodsList'
-  import backTop from 'components/content/backTop/backTop'
   import {debounce} from '@/common/utils'
   import {backTopMixin,itemListenerMinxin} from '@/common/mixin'
 
@@ -66,7 +65,6 @@
       TabControl,
       GoodsList,
       scroll,
-      backTop,
     },
     mixins:[backTopMixin,itemListenerMinxin],
     data(){
@@ -84,7 +82,6 @@
         tabOffsetTop:0,
         isTabfixed:false,
         isLoads:false,
-      //  f1:false,
       }
     },
     created() {
@@ -128,9 +125,8 @@
       },
 
       contentScroll(position){
-        //控制backtop按钮出现和消失
+        //控制backtop按钮出现和消失,这里不能抽离混入，除非再起新的方法
           this.showBackTop=  (-position.y) > 1000
-
 
         //决定tabControl是否吸顶（position：fiexd）
           this.isTabfixed = (-position.y) > (this.tabOffsetTop)

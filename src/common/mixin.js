@@ -1,5 +1,8 @@
-
+import backTop from 'components/content/backTop/backTop'
 export const backTopMixin = {
+  components:{
+    backTop,
+  },
   data: function () {
     return {
        showBackTop: false
