@@ -3,13 +3,10 @@
     <nav-bar class="cart-bar">
       <div slot="center">购物车({{len}})</div>
     </nav-bar>
-    <div class="goodsList">
-      <ul v-if="$store.state.cartList.length !== 0" >
-        <li v-for="item in $store.state.cartList">{{item}}</li>
-      </ul>
-      <div v-else>购物车是空的，快去添加自己喜欢的商品吧～</div>
-    </div>
 
+    <div class="cart-list">
+        <cart-list></cart-list>
+    </div>
   </div>
 
 
@@ -17,11 +14,14 @@
 
 <script>
   import NavBar from 'components/common/navbar/NavBar'
-
+  import CartList from "./childrenComponent/cartList";
   import { mapGetters } from 'vuex'
+
     export default {
       name: "Cart",
+
       components:{
+        CartList,
         NavBar,
       },
       computed:{
@@ -31,7 +31,8 @@
         ...mapGetters({
           len:'cartLen'
         })
-      }
+      },
+
     }
 </script>
 
@@ -43,8 +44,7 @@
     color: var(--color-background);
     background: var(--color-tint);
   }
-  .goos-list{
-    width: 100vw;
-    height: 100vh;
+  .cart-list{
+    background: #f6f6f6;
   }
 </style>

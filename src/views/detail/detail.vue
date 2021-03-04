@@ -115,17 +115,21 @@
         //获取购物车里需要展示的数据
         const product={
         }
-        product.img = this.topImages[0]
-        product.desc = this.goods.desc
-        product.title = this.goods.title
-        product.price = this.goods.realPrice
-        product.iid = this.iid
+        product.goods=[]
+        const goodsList={}
+        goodsList.img = this.topImages[0]
+        goodsList.desc = this.goods.desc
+        goodsList.title = this.goods.title
+        goodsList.price = this.goods.realPrice
+        goodsList.iid = this.iid
+
         product.logo = this.shop.logo
         product.shop = this.shop.name
+        product.goods.push(goodsList)
         //将商品添加到购物车
         this.$store.dispatch('addCart',product)
-
-        console.log(this.$store.state.cartList);
+       // console.log(product);
+         console.log(this.$store.state.cartList[0].goods);
       }
     },
 

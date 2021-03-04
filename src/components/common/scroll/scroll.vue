@@ -70,7 +70,7 @@
         },
         refresh(){
           this.scroll && this.scroll.refresh()
-          // console.log(123123);
+           console.log(123123);
         }
       }
     }
