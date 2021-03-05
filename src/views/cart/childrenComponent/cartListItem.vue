@@ -2,14 +2,14 @@
   <div class="list-item">
     <div class="shop-item">
       <div class="shop-selector">
-        <check-button></check-button>
+        <check-button :is-active="product.checked" @click.native="shopClick"></check-button>
       </div>
       <i class="icon-shop"></i>
       {{product.shop}} >
     </div>
-    <div class="goods-item" v-for="item in product.goods">
+    <div class="goods-item" v-for="(item,index) in product.goods">
       <div class="item-selector">
-        <check-button></check-button>
+        <check-button :is-active="product.goods[index].checked" @click.native="itemClick(index)"></check-button>
       </div>
       <div class="goods-img item-left">
         <img :src="item.img" alt="">
@@ -42,6 +42,28 @@
             return{}
           }
         }
+      },
+      methods:{
+        shopClick(){
+          this.product.checked = !this.product.checked
+          //判断是否全选
+          if(this.product.checked){
+            this.product.goods.map(x=>{x.checked = true})
+          }else {
+            this.product.goods.map(x=>{x.checked = false})
+          }
+        },
+        itemClick(index){
+          this.product.goods[index].checked = !this.product.goods[index].checked
+          //如果有不选中时店铺不能选中状态
+          if(this.product.goods[index].checked === false){
+            this.product.checked = false
+          }
+          //如果当前店铺下全部选中则选中店铺
+          if(this.product.goods.filter(x=>{return x.checked === false}).length === 0){
+            this.product.checked = true
+          }
+        }
       }
     }
 </script>
@@ -57,11 +79,17 @@
   }
   .item-selector {
     position: relative;
-    top: 30px;
+    /*top: 30px;*/
+    height: 18px;
+    width: 18px;
+    display: flex;
+    margin: auto 0;
   }
   .shop-selector{
-    position: relative;
-    padding: 8px 0;
+    height: 18px;
+    width: 18px;
+    display: flex;
+    margin: auto 0 ;
   }
   .shop-item{
     display: flex;
@@ -111,6 +139,9 @@
     flex-direction: row;
     justify-content: space-between;
     margin-top: 25px;
+  }
+  .goods-price{
+    color:var(--color-tint) ;
   }
 
 </style>

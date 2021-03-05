@@ -10,10 +10,13 @@ export default{
     payload.count +=1
   },
   [ADD_TO_CART](state,payload){
+    payload.checked = false
+    payload.goods[0].checked = false
     state.cartList.push(payload)
   },
   [ADD_TO_GOOD](state,payload){
     let oldshop = state.cartList.find(item =>{return item.shop === payload.shop })
+    payload.goods[0].checked = false
     oldshop.goods.push(payload.goods[0])
   }
 }

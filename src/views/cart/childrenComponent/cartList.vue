@@ -1,10 +1,7 @@
 <template>
     <div class="cartList">
       <scroll class="content" ref="scroll" >
-        <div v-if="$store.state.cartList.length !== 0">
-          <cart-list-item v-for="(item,index) in cartList" :product="item"></cart-list-item>
-        </div>
-        <div v-else>购物车是空的，快去添加自己喜欢的商品吧～</div>
+          <cart-list-item v-for="(item,index) in cartList" :product="item" :key="index"></cart-list-item>
       </scroll>
 
     </div>
@@ -33,8 +30,6 @@
       this.$refs.scroll.refresh()
     },
     activated() {
-
-      console.log(457);
       this.$refs.scroll.refresh()
     }
   }
@@ -42,8 +37,9 @@
 
 <style scoped>
   .content{
-    height: calc(100vh - 93px) ;
+    height: calc(100vh - 93px - 40px) ;
     overflow: hidden;
+    background: #f6f6f6;
 
   }
 </style>
