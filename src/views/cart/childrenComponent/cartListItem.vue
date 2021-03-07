@@ -7,7 +7,7 @@
       <i class="icon-shop"></i>
       {{product.shop}} >
     </div>
-    <div class="goods-item" v-for="(item,index) in product.goods">
+    <div class="goods-item" v-for="(item,index) in product.goods" :key="index">
       <div class="item-selector">
         <check-button :is-active="product.goods[index].checked" @click.native="itemClick(index)"></check-button>
       </div>

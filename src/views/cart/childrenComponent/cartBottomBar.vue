@@ -24,13 +24,13 @@
       methods:{
         allClick(){
           if(this.allChecked){ // 全部选中
-            this.cartList.map(x=>{
-              x.goods.map(x=>x.checked = false)
+            this.cartList.forEach(x=>{
+              x.goods.forEach(x=>x.checked = false)
               return x.checked = false
             })
           }else {
-            this.cartList.map(x=>{
-              x.goods.map(x=>x.checked = true)
+            this.cartList.forEach(x=>{
+              x.goods.forEach(x=>x.checked = true)
               return x.checked = true
             })
           }

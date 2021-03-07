@@ -127,9 +127,12 @@
         product.shop = this.shop.name
         product.goods.push(goodsList)
         //将商品添加到购物车
-        this.$store.dispatch('addCart',product)
+        this.$store.dispatch('addCart',product).then(res=>{
+          this.$toast.show(res)
+          //console.log(this.$toast);
+        })
        // console.log(product);
-         console.log(this.$store.state.cartList[0].goods);
+       //  console.log(this.$store.state.cartList[0].goods);
       }
     },
 

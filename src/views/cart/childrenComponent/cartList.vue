@@ -15,8 +15,8 @@
     name: "cartList",
     watch:{
       cartList(){
-       // this.$refs.scroll.refresh()
-       // console.log(123)
+        this.$refs.scroll.refresh()
+      //  console.log(123)
       }
     },
     components: {
@@ -27,6 +27,7 @@
       ...mapGetters(['cartList'])
     },
     updated(){
+     // console.log(123);
       this.$refs.scroll.refresh()
     },
     activated() {

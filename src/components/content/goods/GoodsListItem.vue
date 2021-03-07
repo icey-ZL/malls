@@ -1,6 +1,7 @@
 <template>
   <div class="goods-item" @click="itemClick">
-    <img :src="showImg" alt="" @load="imgload">
+    <!--<img :src="showImg" alt="" @load="imgload">-->
+    <img v-lazy="showImg" alt="">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -35,7 +36,7 @@
          // this.$store.commit('onload')
         },
         itemClick(){
-          this.$router.push('/detail/'+ this.goodsItem.iid)
+          this.$router.push('/detail/'+ this.goodsItem.iid).catch(err=>err)
         }
       },
       mounted() {
