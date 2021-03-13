@@ -7,6 +7,7 @@
                  class="tab-none"
                  :titles="['流行','精选','新款']"
                  @tabClick="tabClick"
+                 :data="showGoods"
                  v-show="isTabfixed"></tab-control>
     <!--<div class="down-load">&lt;!&ndash;@click="loadMore" &ndash;&gt;-->
       <!--下拉刷新...-->

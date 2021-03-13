@@ -1,7 +1,7 @@
 <template>
   <div class="goods-item" @click="itemClick">
     <!--<img :src="showImg" alt="" @load="imgload">-->
-    <img v-lazy="showImg" alt="">
+    <img v-lazy="showImg" :key="showImg" alt="">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -25,15 +25,15 @@
       },
       computed:{
         showImg(){
-          return this.goodsItem.image || this.goodsItem.show.img
+          return this.goodsItem.img || this.goodsItem.image || this.goodsItem.show.img
         }
       },
       methods:{
         imgload(){
           this.$bus.$emit('onload')
           //console.log(1111);
-          // console.log(this.$store.state.imgload);
-         // this.$store.commit('onload')
+          //console.log(this.$store.state.imgload);
+          //this.$store.commit('onload')
         },
         itemClick(){
           this.$router.push('/detail/'+ this.goodsItem.iid).catch(err=>err)
@@ -41,6 +41,7 @@
       },
       mounted() {
        // this.$store.commit('onload')
+
       }
     }
 </script>
