@@ -10,7 +10,7 @@ Vue.use(toast)
 //使用图片懒加载
 Vue.use(vueLazyLoad,{
   //加载前填充
-  loading:require('./assets/img/common/placeholder.png')
+  loading:require('./assets/img/common/placeholders.png')
 })
 //解决移动端300ms延迟
 fastClick.attach(document.body)
